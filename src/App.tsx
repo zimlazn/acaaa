@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Heart } from 'lucide-react';
 import { FloatingParticles } from './components/FloatingParticles';
 import { EnvelopeSection } from './components/EnvelopeSection';
 import { TimeCounter } from './components/TimeCounter';

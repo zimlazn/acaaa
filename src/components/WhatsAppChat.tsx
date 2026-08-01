@@ -55,11 +55,12 @@ const ORIGINAL_CHAT: ChatMessage[] = [
 ];
 
 export const WhatsAppChat: React.FC<WhatsAppChatProps> = ({ onNextStep, onPrevStep }) => {
-  const [displayedIndex, setDisplayedIndex] = useState<number>(0);
+  const [displayedIndex, setDisplayedIndex] = useState<number>(3);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [reactions, setReactions] = useState<Record<string, string>>({});
   const [userReplyText, setUserReplyText] = useState('');
   const [extraMessages, setExtraMessages] = useState<ChatMessage[]>([]);
+  const [activeReactionMsgId, setActiveReactionMsgId] = useState<string | null>(null);
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
   // Auto-play chat logic
@@ -196,8 +197,12 @@ export const WhatsAppChat: React.FC<WhatsAppChatProps> = ({ onNextStep, onPrevSt
             {/* Avatar */}
             <div className="relative">
               <img
-                src="https://lh3.googleusercontent.com/rd-d/ALs6j_GtMXJpkrmNJvXXqdLsHlHj2bfjLoEzTaWUhoD8btm9EUcI7WCSs_jVG5X8AQcJozEpi9ECsH3rN23wzZ-KSmdiYikhWBgQMel94_MC4G91BM7KXE_V086DHLtQ67PTADWiavSkccW0G0DhwVKGdIb8AaOdAvELa1z7PUK_mUb9apKc1G2LkrA8lDurPcb-QufAsj2AQbzCIHZz50h59Q646d_OWZYnLOHHMKrmBloS27CIvEFHjgfwDIETfB4tg09miN5wiR407Vi-znxgYH8wATYMantaJzzOHSDWhVI6pfTShSR_m7wC80EFDzUc13ycwgPT8irV32MNOCfNp1lPZo-YNCHqiLjOoyyIvPmMcziblFsUZYHg0kd9cNNXmt5Xc9hk0NpDHPhjgQXBRNCEb0KEEXfJsYaVod6HOWUfeocNmwh-qqUEnALvJY5cL98WkJ4TcpH1Gun_xoXD5uJtY6gBCQxdEOFp8gtmIIOUdmEx4ieu_AwSX916OdNsV3YANpZyObwQ6ZXqveLAPOCZ9Httuv7JNg1FoBCMAIfprnozfWH6dHNmly9oKT3_oddy5md_Rg64mnBObuRYQM_A26UySfYXbQSVLLUFWb0_UpbHNk-wFPabsUWmJhGG9Ckw39Wx2De6BqN3SFUF7mxTDW4ZTR53-biakCfbPV1IxA9Vl3AQzZXpe7OHM7dJcWryhLkuwp9u16Qi5LdCW5RLPBO5XLQW4JpRjCzIL4PsIKJuEwC3RbgZzhRyXb1U6DWgNKsB16WTn2HJFkaNV_sbPBYxYFSNE7ToURg0x1XmVunS2PGEoR_I5bYTuaBjvfvhcem9JCS_2jcJnlNhPS83A88QkiTwjO2NaTB_tukW5H7Ss-wStLal5Rj2u6YtaINGvAJCn5-0cCIPVw3--bM125Bfn947hPzJUFlaeFB3oauL5kO39FPQZ3wR0oZ-hb50o4doigyenK3VX0FikRdCyvJA5Bnb2HsO9fsVRUB3LPSqPZdxECQHLjpDfzWXpbFqvQRIIHHWZO7XOytEfn9rzitV6x0ZMug9cpzFz1HuUIELq_tas6IxjbZZdlBN7RTwspBFDPhuti6qll11Weh9Fdn21A=w1920-h912?auditContext=prefetch"
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop"
                 alt="Acaa Avatar"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="%23ec4899"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+                }}
                 className="w-10 h-10 rounded-full object-cover border border-white/40 shadow-xs"
               />
               <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 border-2 border-[#075e54] rounded-full"></span>
@@ -294,9 +299,9 @@ export const WhatsAppChat: React.FC<WhatsAppChatProps> = ({ onNextStep, onPrevSt
 
                     {/* Hover Reaction Trigger */}
                     <div
-                      className={`absolute top-1 ${
-                        isAam ? '-left-12' : '-right-12'
-                      } opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 bg-white/90 p-1 rounded-full shadow-md border border-pink-200 z-10`}
+                      className={`absolute -top-7 ${
+                        isAam ? 'right-0' : 'left-0'
+                      } opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5 bg-white/95 px-2 py-0.5 rounded-full shadow-md border border-pink-200 z-20`}
                     >
                       <button
                         onClick={() => handleAddReaction(msg.id, '❤️')}
