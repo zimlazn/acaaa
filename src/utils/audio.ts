@@ -72,59 +72,12 @@ class SoundEffectsManager {
 
   // Warm sweet lofi background melody synth loop
   toggleBackgroundMusic(): boolean {
-    if (this.isMusicPlaying) {
-      this.stopBackgroundMusic();
-      return false;
-    } else {
-      this.startBackgroundMusic();
-      return true;
-    }
+    this.stopBackgroundMusic();
+    return false;
   }
 
   startBackgroundMusic() {
-    try {
-      this.initCtx();
-      if (!this.ctx) return;
-
-      this.isMusicPlaying = true;
-      this.musicGainNode = this.ctx.createGain();
-      this.musicGainNode.gain.setValueAtTime(0.08, this.ctx.currentTime);
-      this.musicGainNode.connect(this.ctx.destination);
-
-      // Cute warm pentatonic tune sequence (C, D, E, G, A, C5)
-      const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 659.25];
-      const melody = [0, 2, 4, 3, 2, 0, 4, 5, 4, 2, 3, 1, 0, 2, 4, 6];
-      let step = 0;
-
-      const playNextNote = () => {
-        if (!this.isMusicPlaying || !this.ctx || !this.musicGainNode) return;
-
-        const noteIndex = melody[step % melody.length];
-        const freq = scale[noteIndex];
-
-        const osc = this.ctx.createOscillator();
-        const noteGain = this.ctx.createGain();
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-
-        noteGain.gain.setValueAtTime(0.06, this.ctx.currentTime);
-        noteGain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.8);
-
-        osc.connect(noteGain);
-        noteGain.connect(this.musicGainNode);
-
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.85);
-
-        step++;
-        this.musicTimer = window.setTimeout(playNextNote, 600);
-      };
-
-      playNextNote();
-    } catch {
-      this.isMusicPlaying = false;
-    }
+    this.isMusicPlaying = false;
   }
 
   stopBackgroundMusic() {
@@ -136,7 +89,7 @@ class SoundEffectsManager {
   }
 
   getPlayingState(): boolean {
-    return this.isMusicPlaying;
+    return false;
   }
 }
 

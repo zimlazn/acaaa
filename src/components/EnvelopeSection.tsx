@@ -2,18 +2,14 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
 import { soundFx } from '../utils/audio';
-import { Heart, Sparkles, Send, Mail, Volume2, VolumeX, ArrowRight, HeartHandshake } from 'lucide-react';
+import { Heart, Sparkles, Send, Mail, ArrowRight, HeartHandshake } from 'lucide-react';
 
 interface EnvelopeSectionProps {
   onComplete: () => void;
-  isMusicPlaying: boolean;
-  onToggleMusic: () => void;
 }
 
 export const EnvelopeSection: React.FC<EnvelopeSectionProps> = ({
   onComplete,
-  isMusicPlaying,
-  onToggleMusic,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -37,27 +33,6 @@ export const EnvelopeSection: React.FC<EnvelopeSectionProps> = ({
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 relative z-10 select-none">
-      {/* Top Music Toggle & Badge */}
-      <div className="absolute top-6 right-6 flex items-center gap-3">
-        <button
-          onClick={onToggleMusic}
-          id="music-toggle-btn"
-          className="flex items-center gap-2 px-4 py-2 bg-white/80 hover:bg-white backdrop-blur-md text-pink-600 rounded-full shadow-md hover:shadow-lg transition-all text-xs font-semibold border border-pink-200 cursor-pointer"
-        >
-          {isMusicPlaying ? (
-            <>
-              <Volume2 className="w-4 h-4 text-pink-500 animate-pulse" />
-              <span>Musik: Menyala 🎵</span>
-            </>
-          ) : (
-            <>
-              <VolumeX className="w-4 h-4 text-gray-400" />
-              <span>Musik: Mati 🔇</span>
-            </>
-          )}
-        </button>
-      </div>
-
       <AnimatePresence mode="wait">
         {!isOpen ? (
           /* JUMPING ENVELOPE STAGE */

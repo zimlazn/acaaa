@@ -7,18 +7,11 @@ import { WhatsAppChat } from './components/WhatsAppChat';
 import { PhotoGallery } from './components/PhotoGallery';
 import { VirtualFlowers } from './components/VirtualFlowers';
 import { soundFx } from './utils/audio';
-import { Heart, Volume2, VolumeX } from 'lucide-react';
 
 export default function App() {
   const [stage, setStage] = useState<'envelope' | 'main'>('envelope');
   // step index: 0 = Time Counter, 1 = WhatsApp Chat, 2 = Photo Gallery, 3 = Virtual Flowers
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
-
-  const handleToggleMusic = () => {
-    const isPlaying = soundFx.toggleBackgroundMusic();
-    setIsMusicPlaying(isPlaying);
-  };
 
   const handleRestart = () => {
     soundFx.playPop();
@@ -30,27 +23,6 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 text-gray-800 font-sans relative overflow-x-hidden selection:bg-pink-200">
       {/* Floating Background Particles */}
       <FloatingParticles />
-
-      {/* Discrete Floating Music Toggle Button (Top Right, No Header Bar) */}
-      <div className="fixed top-4 right-4 z-50">
-        <button
-          onClick={handleToggleMusic}
-          id="floating-music-toggle-btn"
-          className="px-3.5 py-2 bg-white/90 hover:bg-white text-pink-600 rounded-full border border-pink-200 text-xs font-bold shadow-md flex items-center gap-1.5 transition-all cursor-pointer backdrop-blur-sm"
-        >
-          {isMusicPlaying ? (
-            <>
-              <Volume2 className="w-4 h-4 text-pink-500 animate-pulse" />
-              <span>Musik On</span>
-            </>
-          ) : (
-            <>
-              <VolumeX className="w-4 h-4 text-gray-400" />
-              <span>Musik Off</span>
-            </>
-          )}
-        </button>
-      </div>
 
       <AnimatePresence mode="wait">
         {stage === 'envelope' ? (
@@ -67,8 +39,6 @@ export default function App() {
                 setStage('main');
                 setCurrentStep(0);
               }}
-              isMusicPlaying={isMusicPlaying}
-              onToggleMusic={handleToggleMusic}
             />
           </motion.div>
         ) : (
