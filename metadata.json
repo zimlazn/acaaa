@@ -1,0 +1,6 @@
+{
+  "name": "Surat Spesial Girlfriend Day untuk Acaa 💖",
+  "description": "Aplikasi web romantis dan lucu untuk merayakan Girlfriend Day bersama Acaa, dilengkapi surat interaktif, penghitung waktu jadian, galeri foto, dan bunga virtual.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
